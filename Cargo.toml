@@ -1,0 +1,11 @@
+[package]
+name = "unmonitor"
+version = "0.1.0"
+edition = "2024"
+description = "Use HDMI audio from your AV receiver or soundbar on Windows without the extra monitor getting in the way."
+
+[dependencies]
+windows = { version = "0.62.2", features = ["Win32_Foundation", "Win32_Graphics_Gdi", "Win32_Devices_Display", "Win32_UI_WindowsAndMessaging", "Win32_UI_Accessibility", "Win32_UI_HiDpi", "Win32_UI_Shell", "Win32_System_LibraryLoader", "Win32_System_Registry", "Win32_Media_Audio", "Win32_System_Com", "Win32_UI_Shell_PropertiesSystem", "Win32_Devices_FunctionDiscovery", "Win32_System_Com_StructuredStorage", "Win32_System_Variant", "Win32_UI_Input_KeyboardAndMouse", "Win32_System_SystemInformation"] }
+
+[build-dependencies]
+embed-resource = "3.0.12"
