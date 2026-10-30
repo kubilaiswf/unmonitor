@@ -806,6 +806,13 @@ unsafe extern "system" fn wnd_proc(
                 refresh_layout();
                 rescue_all();
             }
+            // the startup task is a WinRT call, which fails inside a sent message
+            WM_TRAY | WM_COMMAND
+                if InSendMessageEx(None) & (ISMEX_SEND | ISMEX_REPLIED) == ISMEX_SEND =>
+            {
+                let _ = ReplyMessage(LRESULT(0));
+                return wnd_proc(hwnd, msg, wparam, lparam);
+            }
             WM_TRAY if lparam.0 as u32 == WM_RBUTTONUP => show_menu(hwnd),
             WM_COMMAND => on_command(wparam.0),
             WM_TIMER if wparam.0 == TIMER_KEEP_AWAKE => keep_awake_tick(),
