@@ -44,7 +44,7 @@ The menu is in English, or in Turkish when Windows is set to Turkish.
 
 Settings are saved in `%APPDATA%\Unmonitor\config.ini`.
 
-The exe is not code-signed, so SmartScreen may warn about it. Click **More info**, then **Run anyway**, or build it yourself.
+The exe is not code-signed, so SmartScreen may warn about it. Click **More info**, then **Run anyway**, or build it yourself. The v0.1.0 exe scanned clean on [VirusTotal](https://www.virustotal.com/gui/file/e90c78b79c03a398d074ba54c7023182d483506b7a76f5bca774f1ffb820010f) (0/71).
 
 ## Requirements
 
