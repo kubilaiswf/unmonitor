@@ -7,7 +7,8 @@
 
 <h1 align="center">Unmonitor</h1>
 
-<p align="center">Use HDMI audio from an AV receiver or soundbar on Windows without the extra monitor getting in the way.</p>
+<p align="center">Use HDMI audio from an AV receiver or soundbar on Windows without the extra monitor getting in the way.<br>
+<a href="https://unmonitor.kubilaiswf.com">unmonitor.kubilaiswf.com</a></p>
 
 <p align="center">
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/kubilaiswf/unmonitor?label=download" alt="Latest release"></a>

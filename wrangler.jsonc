@@ -1,0 +1,10 @@
+{
+	"name": "unmonitor",
+	"compatibility_date": "2026-10-30",
+	"assets": {
+		"directory": "./docs/"
+	},
+	"routes": [
+		{ "pattern": "unmonitor.kubilaiswf.com", "custom_domain": true }
+	]
+}

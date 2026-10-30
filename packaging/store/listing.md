@@ -5,8 +5,8 @@ Copy these into Partner Center.
 ## Properties
 
 - Category: Utilities & tools
-- Privacy policy URL: https://github.com/kubilaiswf/unmonitor#privacy
-- Website: https://github.com/kubilaiswf/unmonitor
+- Privacy policy URL: https://unmonitor.kubilaiswf.com/#privacy
+- Website: https://unmonitor.kubilaiswf.com
 - Support contact: https://github.com/kubilaiswf/unmonitor/issues
 
 ## Pricing
