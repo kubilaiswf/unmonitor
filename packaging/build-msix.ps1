@@ -1,8 +1,8 @@
 # Name, Publisher and PublisherName come from Partner Center > Product identity.
 param(
-    [string]$Name = "Unmonitor",
-    [string]$Publisher = "CN=Unmonitor",
-    [string]$PublisherName = "Kubilay Karacar",
+    [string]$Name = "kubilaiswf.Unmonitor",
+    [string]$Publisher = "CN=88B767A3-3667-4411-915A-F2241E9484B9",
+    [string]$PublisherName = "kubilaiswf",
     [string]$Version = "0.1.0.0"
 )
 $ErrorActionPreference = "Stop"
