@@ -7,6 +7,7 @@ use std::sync::atomic::{AtomicIsize, AtomicU32, Ordering};
 use std::sync::{Mutex, RwLock};
 use std::thread;
 
+use windows::ApplicationModel::{StartupTask, StartupTaskState};
 use windows::Win32::Devices::Display::*;
 use windows::Win32::Devices::FunctionDiscovery::PKEY_Device_FriendlyName;
 use windows::Win32::Foundation::*;
@@ -16,6 +17,7 @@ use windows::Win32::Media::Audio::{
     AUDCLNT_BUFFERFLAGS_SILENT, AUDCLNT_SHAREMODE_SHARED, DEVICE_STATE_ACTIVE, IAudioClient,
     IAudioRenderClient, IMMDevice, IMMDeviceEnumerator, MMDeviceEnumerator, eRender,
 };
+use windows::Win32::Storage::Packaging::Appx::GetCurrentPackageFullName;
 use windows::Win32::System::Com::StructuredStorage::{PropVariantClear, PropVariantToStringAlloc};
 use windows::Win32::System::Com::{
     CLSCTX_ALL, COINIT_APARTMENTTHREADED, CoCreateInstance, CoInitializeEx, CoTaskMemFree,
@@ -140,7 +142,25 @@ fn save_config(config: &Config) {
     );
 }
 
+// the store build is an msix package, which can't use the Run key
+fn packaged() -> bool {
+    let mut len = 0;
+    unsafe { GetCurrentPackageFullName(&mut len, None) != APPMODEL_ERROR_NO_PACKAGE }
+}
+
+// id matches the startupTask in packaging/AppxManifest.xml
+fn startup_task() -> Result<StartupTask> {
+    StartupTask::GetAsync(&HSTRING::from("UnmonitorStartup"))?.join()
+}
+
 fn autostart_enabled() -> bool {
+    if packaged() {
+        return startup_task()
+            .and_then(|task| task.State())
+            .is_ok_and(|state| {
+                state == StartupTaskState::Enabled || state == StartupTaskState::EnabledByPolicy
+            });
+    }
     unsafe {
         RegGetValueW(
             HKEY_CURRENT_USER,
@@ -155,6 +175,18 @@ fn autostart_enabled() -> bool {
 }
 
 fn set_autostart(enable: bool) {
+    if packaged() {
+        if let Ok(task) = startup_task() {
+            let _ = if enable {
+                task.RequestEnableAsync()
+                    .and_then(|op| op.join())
+                    .map(|_| ())
+            } else {
+                task.Disable()
+            };
+        }
+        return;
+    }
     unsafe {
         if !enable {
             let _ = RegDeleteKeyValueW(HKEY_CURRENT_USER, RUN_KEY, w!("Unmonitor"));
