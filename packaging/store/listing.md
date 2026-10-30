@@ -1,4 +1,4 @@
-﻿# Microsoft Store listing
+# Microsoft Store listing
 
 Copy these into Partner Center.
 
@@ -33,17 +33,17 @@ Free for personal use. Source code: https://github.com/kubilaiswf/unmonitor
 
 ## Description (Turkish)
 
-Bir AV receiver ya da soundbar bilgisayara HDMI ile baÄŸlanÄ±nca Windows onu ikinci bir ekran olarak gÃ¶rÃ¼r. O ekranÄ± kapatÄ±rsanÄ±z ses de gider. AÃ§Ä±k bÄ±rakÄ±rsanÄ±z mouse ve pencereler gÃ¶remediÄŸiniz bir ekrana kaÃ§ar.
+Bir AV receiver ya da soundbar bilgisayara HDMI ile bağlanınca Windows onu ikinci bir ekran olarak görür. O ekranı kapatırsanız ses de gider. Açık bırakırsanız mouse ve pencereler göremediğiniz bir ekrana kaçar.
 
-Unmonitor ekranÄ± aÃ§Ä±k bÄ±rakÄ±r, bÃ¶ylece ses Ã§alÄ±ÅŸmaya devam eder, ama Windows'un o ekran yokmuÅŸ gibi davranmasÄ±nÄ± saÄŸlar. Receiver ya da soundbar'Ä±nÄ±zÄ± tepsi menÃ¼sÃ¼nden bir kez seÃ§meniz yeterli.
+Unmonitor ekranı açık bırakır, böylece ses çalışmaya devam eder, ama Windows'un o ekran yokmuş gibi davranmasını sağlar. Receiver ya da soundbar'ınızı tepsi menüsünden bir kez seçmeniz yeterli.
 
-- Mouse kilidi: imleÃ§ gerÃ§ek monitÃ¶rlerinizin kenarÄ±nda durur.
-- Pencereleri kurtar: hoparlÃ¶rÃ¼n ekranÄ±na dÃ¼ÅŸen pencereler kullandÄ±ÄŸÄ±nÄ±z monitÃ¶re geri gelir.
-- Sesin baÅŸÄ± kesilmesin: receiver'Ä±n HDMI ses baÄŸlantÄ±sÄ±nÄ± bÄ±rakÄ±p seslerin baÅŸÄ±nÄ± kesmesini Ã¶nler.
-- Gizli ekranÄ± 720p'ye dÃ¼ÅŸÃ¼r: ekran kartÄ± gÃ¶rÃ¼nmeyen bir 4K masaÃ¼stÃ¼nÃ¼ Ã§izmez.
-- Windows ile baÅŸlat.
+- Mouse kilidi: imleç gerçek monitörlerinizin kenarında durur.
+- Pencereleri kurtar: hoparlörün ekranına düşen pencereler kullandığınız monitöre geri gelir.
+- Sesin başı kesilmesin: receiver'ın HDMI ses bağlantısını bırakıp seslerin başını kesmesini önler.
+- Gizli ekranı 720p'ye düşür: ekran kartı görünmeyen bir 4K masaüstünü çizmez.
+- Windows ile başlat.
 
-KiÅŸisel kullanÄ±m iÃ§in Ã¼cretsiz. Kaynak kodu: https://github.com/kubilaiswf/unmonitor
+Kişisel kullanım için ücretsiz. Kaynak kodu: https://github.com/kubilaiswf/unmonitor
 
 ## What's new in this version
 
