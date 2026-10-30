@@ -10,6 +10,7 @@ use std::thread;
 use windows::Win32::Devices::Display::*;
 use windows::Win32::Devices::FunctionDiscovery::PKEY_Device_FriendlyName;
 use windows::Win32::Foundation::*;
+use windows::Win32::Globalization::GetUserDefaultUILanguage;
 use windows::Win32::Graphics::Gdi::*;
 use windows::Win32::Media::Audio::{
     AUDCLNT_BUFFERFLAGS_SILENT, AUDCLNT_SHAREMODE_SHARED, DEVICE_STATE_ACTIVE, IAudioClient,
@@ -23,6 +24,7 @@ use windows::Win32::System::Com::{
 use windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress, LoadLibraryW};
 use windows::Win32::System::Registry::*;
 use windows::Win32::System::SystemInformation::GetTickCount;
+use windows::Win32::System::Threading::CreateMutexW;
 use windows::Win32::UI::Accessibility::{HWINEVENTHOOK, SetWinEventHook};
 use windows::Win32::UI::HiDpi::{
     DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2, SetProcessDpiAwarenessContext,
@@ -634,6 +636,12 @@ fn uxtheme(ordinal: usize) -> Option<unsafe extern "system" fn() -> isize> {
     unsafe { GetProcAddress(LoadLibraryW(w!("uxtheme.dll")).ok()?, PCSTR(ordinal as _)) }
 }
 
+fn tr(en: &str, tr: &str) -> HSTRING {
+    const LANG_TURKISH: u16 = 0x1f;
+    let turkish = unsafe { GetUserDefaultUILanguage() } & 0x3ff == LANG_TURKISH;
+    HSTRING::from(if turkish { tr } else { en })
+}
+
 fn checked(on: bool) -> MENU_ITEM_FLAGS {
     if on {
         MF_STRING | MF_CHECKED
@@ -664,41 +672,41 @@ fn show_menu(hwnd: HWND) {
                 menu,
                 MF_POPUP,
                 device_menu.0 as usize,
-                w!("Hoparlör cihazı"),
+                &tr("Speaker device", "Hoparlör cihazı"),
             );
             let _ = AppendMenuW(menu, MF_SEPARATOR, 0, PCWSTR::null());
             let _ = AppendMenuW(
                 menu,
                 checked(config.mouse_lock),
                 ID_MOUSE_LOCK,
-                w!("Mouse kilidi"),
+                &tr("Lock mouse", "Mouse kilidi"),
             );
             let _ = AppendMenuW(
                 menu,
                 checked(config.rescue),
                 ID_RESCUE,
-                w!("Pencereleri kurtar"),
+                &tr("Move windows back", "Pencereleri kurtar"),
             );
             let _ = AppendMenuW(
                 menu,
                 checked(config.keep_awake),
                 ID_KEEP_AWAKE,
-                w!("Sesin başı kesilmesin"),
+                &tr("Keep audio awake", "Sesin başı kesilmesin"),
             );
             let _ = AppendMenuW(
                 menu,
                 checked(config.low_res),
                 ID_LOW_RES,
-                w!("Gizli ekranı 720p'ye düşür"),
+                &tr("Run hidden screen at 720p", "Gizli ekranı 720p'ye düşür"),
             );
             let _ = AppendMenuW(menu, MF_SEPARATOR, 0, PCWSTR::null());
             let _ = AppendMenuW(
                 menu,
                 checked(autostart_enabled()),
                 ID_AUTOSTART,
-                w!("Windows ile başlat"),
+                &tr("Start with Windows", "Windows ile başlat"),
             );
-            let _ = AppendMenuW(menu, MF_STRING, ID_EXIT, w!("Çıkış"));
+            let _ = AppendMenuW(menu, MF_STRING, ID_EXIT, &tr("Exit", "Çıkış"));
         }
         let mut pt = POINT::default();
         let _ = GetCursorPos(&mut pt);
@@ -793,6 +801,12 @@ fn message_loop() {
 }
 
 fn main() -> Result<()> {
+    unsafe {
+        let _instance_lock = CreateMutexW(None, false, w!("Unmonitor"))?;
+        if GetLastError() == ERROR_ALREADY_EXISTS {
+            return Ok(());
+        }
+    }
     *CONFIG.write().unwrap() = load_config();
 
     unsafe {
