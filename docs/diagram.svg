@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" width="760" height="250" font-family="Segoe UI, -apple-system, Helvetica, Arial, sans-serif">
+  <defs>
+    <path id="cursor" d="M0 0 L0 17 L4.5 13 L7.5 20 L10 19 L7 12 L12.5 12 Z"/>
+    <marker id="head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#3fb950"/>
+    </marker>
+  </defs>
+
+  <g fill="#8b949e" font-size="17" font-weight="600" text-anchor="middle">
+    <text x="175" y="38">Without Unmonitor</text>
+    <text x="555" y="38">With Unmonitor</text>
+  </g>
+
+  <g fill="none" stroke="#8b949e" stroke-width="3">
+    <rect x="20" y="62" width="150" height="95" rx="6"/>
+    <rect x="400" y="62" width="150" height="95" rx="6"/>
+    <path d="M80 157 L80 170 M110 157 L110 170 M70 170 L120 170"/>
+    <path d="M460 157 L460 170 M490 157 L490 170 M450 170 L500 170"/>
+  </g>
+  <g fill="#8b949e" fill-opacity="0.08" stroke="#8b949e" stroke-width="2" stroke-dasharray="7 6" stroke-opacity="0.7">
+    <rect x="180" y="62" width="150" height="95" rx="6"/>
+    <rect x="560" y="62" width="150" height="95" rx="6"/>
+  </g>
+
+  <g fill="none" stroke="#e5534b" stroke-width="2.5">
+    <rect x="215" y="85" width="74" height="48" rx="3"/>
+    <path d="M215 95 L289 95"/>
+  </g>
+  <use href="#cursor" x="300" y="112" fill="#e5534b"/>
+
+  <g fill="none" stroke="#3fb950" stroke-width="2.5">
+    <rect x="430" y="85" width="74" height="48" rx="3"/>
+    <path d="M430 95 L504 95"/>
+    <path d="M553 80 L553 140" stroke-width="4" stroke-linecap="round"/>
+    <path d="M660 100 Q 600 76 512 98" stroke-dasharray="5 5" marker-end="url(#head)"/>
+  </g>
+  <use href="#cursor" x="536" y="118" fill="#3fb950"/>
+
+  <g fill="#8b949e" font-size="13" text-anchor="middle">
+    <text x="95" y="192">Monitor</text>
+    <text x="255" y="192">Soundbar (hidden screen)</text>
+    <text x="475" y="192">Monitor</text>
+    <text x="635" y="192">Soundbar (hidden screen)</text>
+  </g>
+  <g fill="#8b949e" font-size="14" text-anchor="middle">
+    <text x="175" y="232">Mouse and windows get lost</text>
+    <text x="555" y="232">Mouse stops at the edge, windows come back</text>
+  </g>
+</svg>
