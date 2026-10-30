@@ -56,6 +56,10 @@ Windows 10 (1903 or later) or Windows 11, with the displays in Extend mode. Test
 - Some games read the mouse directly, so the mouse lock doesn't apply to them.
 - Keep audio awake finds the audio device by the name Windows gives it, like `LG-SBAR (NVIDIA High Definition Audio)`. If you rename it in Sound settings, that feature stops working.
 
+## Privacy
+
+Unmonitor doesn't collect, store or send any data. It never connects to the internet. Its only file is the settings file mentioned above.
+
 ## Building
 
 Needs Rust with the MSVC toolchain.
