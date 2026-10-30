@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unmonitor: use HDMI audio on Windows without the extra monitor</title>
+<meta name="description" content="Free Windows tray app for AV receivers and soundbars connected over HDMI. Keeps the audio working while the mouse and windows stay off the phantom second monitor.">
+<link rel="canonical" href="https://unmonitor.kubilaiswf.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Unmonitor">
+<meta property="og:description" content="Use HDMI audio from an AV receiver or soundbar on Windows without the extra monitor getting in the way.">
+<meta property="og:image" content="https://unmonitor.kubilaiswf.com/og.png">
+<meta property="og:url" content="https://unmonitor.kubilaiswf.com/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #111111;
+    --muted: #5c5c5c;
+    --line: #e4e4e4;
+    --card: #f6f6f6;
+    --btn-bg: #111111;
+    --btn-fg: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111111;
+      --fg: #f2f2f2;
+      --muted: #a3a3a3;
+      --line: #2a2a2a;
+      --card: #1a1a1a;
+      --btn-bg: #f2f2f2;
+      --btn-fg: #111111;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 17px/1.6 "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  header { text-align: center; padding: 72px 0 40px; }
+  header svg { width: 72px; height: 72px; }
+  h1 { font-size: 44px; line-height: 1.15; margin: 20px 0 12px; letter-spacing: -0.5px; }
+  .tagline { font-size: 20px; color: var(--muted); margin: 0 auto 32px; max-width: 560px; }
+  .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 8px; font-weight: 600;
+    text-decoration: none; border: 1px solid var(--btn-bg);
+  }
+  .btn.primary { background: var(--btn-bg); color: var(--btn-fg); }
+  .btn.secondary { color: var(--fg); border-color: var(--line); }
+  .note { font-size: 14px; color: var(--muted); margin-top: 14px; }
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 26px; margin: 0 0 16px; }
+  h3 { font-size: 18px; margin: 0 0 4px; }
+  p { margin: 0 0 14px; }
+  a { color: inherit; }
+  .figure { text-align: center; margin: 24px 0 8px; }
+  .figure img { max-width: 100%; height: auto; }
+  .figure img.shot { border-radius: 8px; }
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .feature { background: var(--card); border-radius: 10px; padding: 18px; }
+  .feature p { color: var(--muted); margin: 0; font-size: 15px; }
+  ol { padding-left: 22px; }
+  details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { color: var(--muted); margin: 10px 0 0; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 14px; color: var(--muted); text-align: center; }
+  @media (max-width: 520px) {
+    header { padding-top: 48px; }
+    h1 { font-size: 34px; }
+    .tagline { font-size: 18px; }
+    .features { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <svg viewBox="0 0 256 256" aria-hidden="true" fill="currentColor">
+      <path fill-rule="evenodd" d="M25.81 41H230.19L128 218Z M63.92 63H192.08L128 174Z"/>
+      <path d="M98.56 83H157.44L128 134Z"/>
+    </svg>
+    <h1>Unmonitor</h1>
+    <p class="tagline">Use HDMI audio from an AV receiver or soundbar on Windows without the extra monitor getting in the way.</p>
+    <div class="buttons">
+      <a class="btn primary" href="https://github.com/kubilaiswf/unmonitor/releases/latest/download/unmonitor.exe">Download for Windows</a>
+      <a class="btn secondary" href="https://github.com/kubilaiswf/unmonitor">Source on GitHub</a>
+    </div>
+    <p class="note">Free for personal use. Windows 10 and 11. No installer, 250 KB.</p>
+  </header>
+
+  <section>
+    <h2>The problem</h2>
+    <p>When a receiver or soundbar is connected to a PC over HDMI, Windows treats it as a second display. Turning that display off also turns off the audio. Leaving it on in Extend mode means the mouse and windows keep disappearing onto a screen you can't see. This is sometimes called the phantom or ghost monitor problem.</p>
+    <p>Unmonitor leaves the display enabled, so audio keeps working, and makes Windows behave as if it weren't there.</p>
+    <div class="figure">
+      <img src="diagram.svg" width="760" height="250" alt="Without Unmonitor the mouse and windows get lost on the soundbar's hidden screen. With it, the mouse stops at the edge and windows come back.">
+    </div>
+  </section>
+
+  <section>
+    <h2>What it does</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>Lock mouse</h3>
+        <p>The cursor stops at the edge of your real monitors.</p>
+      </div>
+      <div class="feature">
+        <h3>Move windows back</h3>
+        <p>Windows that open on the speaker's screen come back to the monitor you are using.</p>
+      </div>
+      <div class="feature">
+        <h3>Keep audio awake</h3>
+        <p>Stops the receiver from dropping the HDMI audio link, which cuts off the start of sounds.</p>
+      </div>
+      <div class="feature">
+        <h3>720p hidden screen</h3>
+        <p>Lowers the speaker's screen so the GPU isn't drawing an invisible 4K desktop.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to use it</h2>
+    <ol>
+      <li>Download <code>unmonitor.exe</code> and run it.</li>
+      <li>Right-click the tray icon (it may be hidden under the <code>^</code> arrow) and choose your receiver or soundbar under <strong>Speaker device</strong>.</li>
+    </ol>
+    <div class="figure">
+      <img class="shot" src="menu.png" width="344" height="273" alt="Unmonitor tray menu">
+    </div>
+    <p class="note">The exe isn't code-signed, so SmartScreen may warn about it: click More info, then Run anyway. See the <a href="https://www.virustotal.com/gui/file/e90c78b79c03a398d074ba54c7023182d483506b7a76f5bca774f1ffb820010f">VirusTotal result</a>.</p>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <details>
+      <summary>Why does my AV receiver or soundbar show up as a monitor?</summary>
+      <p>HDMI carries audio inside the video signal. The receiver tells the PC it is a display, so Windows adds it as one, and it has to stay active for audio to reach the receiver.</p>
+    </details>
+    <details>
+      <summary>Can't I just disable the extra display?</summary>
+      <p>Disabling it in Windows or the GPU control panel turns off that HDMI output, and the audio goes with it.</p>
+    </details>
+    <details>
+      <summary>Why not use Duplicate mode?</summary>
+      <p>On some setups Duplicate mode loses the audio. It also forces both screens to share one resolution and refresh rate, and some games pick the receiver as the main screen.</p>
+    </details>
+    <details>
+      <summary>Will it work with my receiver or soundbar?</summary>
+      <p>It should work with any HDMI audio device that Windows lists as a display. It has been tested with an LG soundbar and an NVIDIA GPU on Windows 11.</p>
+    </details>
+    <details>
+      <summary>Does it stop my PC from going to sleep?</summary>
+      <p>No. Keep audio awake lets go of the audio device after a minute without keyboard or mouse input, so Windows can sleep as usual.</p>
+    </details>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy</h2>
+    <p>Unmonitor doesn't collect, store or send any data. It never connects to the internet. Its only file is its settings file in <code>%APPDATA%\Unmonitor</code>.</p>
+  </section>
+
+  <footer>
+    Made by <a href="https://github.com/kubilaiswf">kubilaiswf</a>.
+    Licensed under <a href="https://github.com/kubilaiswf/unmonitor/blob/main/LICENSE.md">PolyForm Noncommercial 1.0.0</a>.
+  </footer>
+</main>
+</body>
+</html>
