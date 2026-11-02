@@ -7,7 +7,8 @@ use std::sync::atomic::{AtomicIsize, AtomicU32, Ordering};
 use std::sync::{Mutex, RwLock};
 use std::thread;
 
-use windows::ApplicationModel::{StartupTask, StartupTaskState};
+use windows::ApplicationModel::Activation::ActivationKind;
+use windows::ApplicationModel::{AppInstance, StartupTask, StartupTaskState};
 use windows::Win32::Devices::Display::*;
 use windows::Win32::Devices::FunctionDiscovery::PKEY_Device_FriendlyName;
 use windows::Win32::Foundation::*;
@@ -37,6 +38,7 @@ use windows::Win32::UI::WindowsAndMessaging::*;
 use windows::core::{BOOL, HSTRING, PCSTR, PCWSTR, Result, w};
 
 const WM_TRAY: u32 = WM_APP + 1;
+const WM_SHOW_RUNNING: u32 = WM_APP + 2;
 const ID_EXIT: usize = 1;
 const ID_MOUSE_LOCK: usize = 2;
 const ID_RESCUE: usize = 3;
@@ -195,7 +197,7 @@ fn set_autostart(enable: bool) {
         let Ok(exe) = std::env::current_exe() else {
             return;
         };
-        let value: Vec<u16> = format!("\"{}\"", exe.display())
+        let value: Vec<u16> = format!("\"{}\" --autostart", exe.display())
             .encode_utf16()
             .chain([0])
             .collect();
@@ -208,6 +210,15 @@ fn set_autostart(enable: bool) {
             (value.len() * 2) as u32,
         );
     }
+}
+
+fn started_by_windows() -> bool {
+    if packaged() {
+        return AppInstance::GetActivatedEventArgs()
+            .and_then(|args| args.Kind())
+            .is_ok_and(|kind| kind == ActivationKind::StartupTask);
+    }
+    std::env::args().any(|arg| arg == "--autostart")
 }
 
 // (monitor name, gdi name like \\.\DISPLAY2)
@@ -663,6 +674,29 @@ fn tray_data(hwnd: HWND) -> NOTIFYICONDATAW {
     data
 }
 
+// a tray icon alone is easy to miss, often hidden under the ^ arrow
+fn show_running(hwnd: HWND) {
+    let mut data = tray_data(hwnd);
+    data.uFlags = NIF_INFO;
+    let title = tr("Unmonitor is running", "Unmonitor çalışıyor");
+    let text = if CONFIG.read().unwrap().device.is_empty() {
+        tr(
+            "Right-click its tray icon and pick your soundbar or receiver under Speaker device.",
+            "Tepsideki simgeye sağ tıklayıp Hoparlör cihazı altından soundbar ya da receiver'ını seç.",
+        )
+    } else {
+        tr(
+            "It's in the tray. Right-click the icon for settings.",
+            "Tepside duruyor. Ayarlar için simgeye sağ tıkla.",
+        )
+    };
+    data.szInfoTitle[..title.len()].copy_from_slice(&title);
+    data.szInfo[..text.len()].copy_from_slice(&text);
+    unsafe {
+        let _ = Shell_NotifyIconW(NIM_MODIFY, &data);
+    }
+}
+
 // undocumented, needed for dark menus: 135 SetPreferredAppMode, 136 FlushMenuThemes
 fn uxtheme(ordinal: usize) -> Option<unsafe extern "system" fn() -> isize> {
     unsafe { GetProcAddress(LoadLibraryW(w!("uxtheme.dll")).ok()?, PCSTR(ordinal as _)) }
@@ -816,6 +850,13 @@ unsafe extern "system" fn wnd_proc(
             WM_TRAY if lparam.0 as u32 == WM_RBUTTONUP => show_menu(hwnd),
             WM_COMMAND => on_command(wparam.0),
             WM_TIMER if wparam.0 == TIMER_KEEP_AWAKE => keep_awake_tick(),
+            WM_SHOW_RUNNING => {
+                show_running(hwnd);
+                // the notice is missed when notifications are off, the menu isn't
+                if CONFIG.read().unwrap().device.is_empty() {
+                    show_menu(hwnd);
+                }
+            }
             // light/dark switch
             WM_SETTINGCHANGE => {
                 let _ = Shell_NotifyIconW(NIM_MODIFY, &tray_data(hwnd));
@@ -843,10 +884,21 @@ fn main() -> Result<()> {
     unsafe {
         let _instance_lock = CreateMutexW(None, false, w!("Unmonitor"))?;
         if GetLastError() == ERROR_ALREADY_EXISTS {
+            if let Ok(running) = FindWindowW(w!("Unmonitor"), None) {
+                // only we hold the foreground right the menu needs
+                let mut pid = 0;
+                GetWindowThreadProcessId(running, Some(&mut pid));
+                let _ = AllowSetForegroundWindow(pid);
+                let _ = PostMessageW(Some(running), WM_SHOW_RUNNING, WPARAM(0), LPARAM(0));
+            }
             return Ok(());
         }
     }
     *CONFIG.write().unwrap() = load_config();
+    // older versions wrote the Run key without --autostart
+    if !packaged() && autostart_enabled() {
+        set_autostart(true);
+    }
 
     unsafe {
         SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)?;
@@ -895,6 +947,9 @@ fn main() -> Result<()> {
             Ordering::Relaxed,
         );
         let _ = Shell_NotifyIconW(NIM_ADD, &tray_data(hwnd));
+        if !started_by_windows() {
+            let _ = PostMessageW(Some(hwnd), WM_SHOW_RUNNING, WPARAM(0), LPARAM(0));
+        }
         // 2s buffer, topped up every second
         SetTimer(Some(hwnd), TIMER_KEEP_AWAKE, 1000, None);
         keep_awake_tick();
