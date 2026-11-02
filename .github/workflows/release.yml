@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build exe and MSIX
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v") + ".0"
+          ./packaging/build-msix.ps1 -Version $version
+          "MSIX=target/unmonitor-$version.msix" >> $env:GITHUB_ENV
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: msix
+          path: ${{ env.MSIX }}
+
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create ${{ github.ref_name }} target/release/unmonitor.exe --generate-notes
+
+      # skipped until the Partner Center API secrets are set up
+      - uses: microsoft/setup-msstore-cli@v1
+        if: vars.STORE_PRODUCT_ID != ''
+
+      - name: Microsoft Store
+        if: vars.STORE_PRODUCT_ID != ''
+        run: |
+          msstore reconfigure --tenantId ${{ secrets.PARTNER_CENTER_TENANT_ID }} --sellerId ${{ secrets.PARTNER_CENTER_SELLER_ID }} --clientId ${{ secrets.PARTNER_CENTER_CLIENT_ID }} --clientSecret ${{ secrets.PARTNER_CENTER_CLIENT_SECRET }}
+          msstore publish ${{ env.MSIX }} -id ${{ vars.STORE_PRODUCT_ID }}
