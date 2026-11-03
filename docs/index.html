@@ -32,6 +32,7 @@
     "applicationCategory": "UtilitiesApplication",
     "description": "Keeps HDMI audio from an AV receiver or soundbar working while the mouse and windows stay off the phantom second monitor.",
     "downloadUrl": "https://github.com/kubilaiswf/unmonitor/releases/latest/download/unmonitor.exe",
+    "installUrl": "https://apps.microsoft.com/detail/9MVWMJM3W2CC",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "author": { "@type": "Person", "name": "Kubilay Karacar", "url": "https://github.com/kubilaiswf" }
   }
@@ -70,7 +71,8 @@
   header svg { width: 72px; height: 72px; }
   h1 { font-size: 44px; line-height: 1.15; margin: 20px 0 12px; letter-spacing: -0.5px; }
   .tagline { font-size: 20px; color: var(--muted); margin: 0 auto 32px; max-width: 560px; }
-  .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .buttons { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .store img { display: block; }
   .btn {
     display: inline-block; padding: 12px 22px; border-radius: 8px; font-weight: 600;
     text-decoration: none; border: 1px solid var(--btn-bg);
@@ -112,10 +114,11 @@
     <h1>Unmonitor</h1>
     <p class="tagline">Use HDMI audio from an AV receiver or soundbar on Windows without the extra monitor getting in the way.</p>
     <div class="buttons">
-      <a class="btn primary" href="https://github.com/kubilaiswf/unmonitor/releases/latest/download/unmonitor.exe">Download for Windows</a>
+      <a class="store" href="https://apps.microsoft.com/detail/9MVWMJM3W2CC"><img src="store-badge.svg" width="176" height="48" alt="Download from the Microsoft Store"></a>
+      <a class="btn secondary" href="https://github.com/kubilaiswf/unmonitor/releases/latest/download/unmonitor.exe">Download the exe</a>
       <a class="btn secondary" href="https://github.com/kubilaiswf/unmonitor">Source on GitHub</a>
     </div>
-    <p class="note">Free for personal use. Windows 10 and 11. No installer, 250 KB.</p>
+    <p class="note">Free for personal use. Windows 10 and 11. The exe needs no installer and is 250 KB.</p>
   </header>
 
   <section>
@@ -152,13 +155,13 @@
   <section>
     <h2>How to use it</h2>
     <ol>
-      <li>Download <code>unmonitor.exe</code> and run it.</li>
+      <li>Install it from the <a href="https://apps.microsoft.com/detail/9MVWMJM3W2CC">Microsoft Store</a>, or download <code>unmonitor.exe</code> and run it.</li>
       <li>Right-click the tray icon (it may be hidden under the <code>^</code> arrow) and choose your receiver or soundbar under <strong>Speaker device</strong>.</li>
     </ol>
     <div class="figure">
       <img class="shot" src="menu.png" width="344" height="273" alt="Unmonitor tray menu">
     </div>
-    <p class="note">The exe isn't code-signed, so SmartScreen may warn about it: click More info, then Run anyway. See the <a href="https://www.virustotal.com/gui/file/14f53486c62997ef434b139934fcc7e60ed3f1290e683ab81fd6fa637d66272c">VirusTotal result</a>.</p>
+    <p class="note">The exe isn't code-signed, so SmartScreen may warn about it: click More info, then Run anyway. The Store version is signed by Microsoft and doesn't show this warning. See the <a href="https://www.virustotal.com/gui/file/14f53486c62997ef434b139934fcc7e60ed3f1290e683ab81fd6fa637d66272c">VirusTotal result</a>.</p>
   </section>
 
   <section>

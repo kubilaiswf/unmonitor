@@ -11,6 +11,10 @@
 <a href="https://unmonitor.kubilaiswf.com">unmonitor.kubilaiswf.com</a></p>
 
 <p align="center">
+  <a href="https://apps.microsoft.com/detail/9MVWMJM3W2CC"><img src="docs/store-badge.svg" width="161" alt="Download from the Microsoft Store"></a>
+</p>
+
+<p align="center">
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/kubilaiswf/unmonitor?label=download" alt="Latest release"></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6" alt="Windows 10 and 11">
   <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-PolyForm%20Noncommercial-555" alt="License: PolyForm Noncommercial"></a>
@@ -36,7 +40,7 @@ The menu is in English, or in Turkish when Windows is set to Turkish.
 
 ## Usage
 
-1. Download `unmonitor.exe` from [Releases](../../releases) and run it. There is no installer.
+1. Install it from the [Microsoft Store](https://apps.microsoft.com/detail/9MVWMJM3W2CC), or download `unmonitor.exe` from [Releases](../../releases) and run it. The exe needs no installer.
 2. Right-click the tray icon (it may be hidden under the `^` arrow) and choose your receiver or soundbar under **Speaker device**.
 
 <p align="center">
@@ -45,7 +49,7 @@ The menu is in English, or in Turkish when Windows is set to Turkish.
 
 Settings are saved in `%APPDATA%\Unmonitor\config.ini`.
 
-The exe is not code-signed, so SmartScreen may warn about it. Click **More info**, then **Run anyway**, or build it yourself. [VirusTotal result for v0.1.1](https://www.virustotal.com/gui/file/14f53486c62997ef434b139934fcc7e60ed3f1290e683ab81fd6fa637d66272c).
+The exe is not code-signed, so SmartScreen may warn about it. Click **More info**, then **Run anyway**, or build it yourself. The Store version is signed by Microsoft and doesn't show this warning. [VirusTotal result for v0.1.1](https://www.virustotal.com/gui/file/14f53486c62997ef434b139934fcc7e60ed3f1290e683ab81fd6fa637d66272c).
 
 ## Requirements
 
